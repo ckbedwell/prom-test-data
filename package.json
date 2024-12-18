@@ -1,0 +1,22 @@
+{
+  "name": "test-data",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsx",
+    "test": "vitest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.7.0",
+    "prometheus-remote-write": "^0.4.1",
+    "typescript": "^5.7.2"
+  },
+  "type": "module",
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "vitest": "^2.1.6"
+  }
+}

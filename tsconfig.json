@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "strict": true,
+    "target": "ES2022",
+    "module": "NodeNext",
+    "esModuleInterop": true,
+    "moduleResolution": "nodenext",
+    "rootDir": "./src", // Base directory to resolve non-relative module names
+    "paths": {
+      "*": ["./node_modules/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}
