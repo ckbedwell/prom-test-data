@@ -19,7 +19,5 @@ describe(`multiShape`, () => {
         curvePeakAt: 50,
       },
     ])
-
-    console.log(res)
   })
 })

@@ -17,17 +17,22 @@ export function bellCurve({
 
   const [min, max] = range
   const data: number[] = []
-  const midPoint = Math.floor(entries * (curvePeakAt / 100))
+  const peakPoint = Math.floor(entries * (curvePeakAt / 100))
   const normalizePoint = Math.floor(entries * (normalizeAt / 100))
   const stdDev = entries / stdDevFactor // Standard deviation controls the curve's width
 
   for (let i = 0; i < entries; i++) {
-    const x = i - midPoint // Center the curve at the midpoint
-    const bellValue = max * Math.exp(-(x * x) / (2 * stdDev * stdDev)) // Bell curve formula
+    const x = i - peakPoint // Center the curve at the peak
+    let bellValue = max * Math.exp(-(x * x) / (2 * stdDev * stdDev)) // Bell curve formula
 
-    // Normalize to rangeMin after normalizePoint
-    const value =
-      i > normalizePoint ? min : Math.max(min, Math.min(bellValue, max)) // Clamp values to range
+    // Smooth normalization after normalizePoint
+    if (i > normalizePoint) {
+      const weight = (i - normalizePoint) / (entries - normalizePoint) // Linear transition
+      bellValue = bellValue * (1 - weight) + min * weight // Interpolate to `min`
+    }
+
+    // Clamp values to range
+    const value = Math.max(min, Math.min(bellValue, max))
 
     data.push(Math.round(value))
   }

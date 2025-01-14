@@ -15,7 +15,7 @@ describe(`bellcurve`, () => {
   })
 
   test(`10 entries | 10 - 100 | peak 50 | normalize 50`, () => {
-    const expected = [10, 10, 20, 49, 84, 100, 10, 10, 10, 10]
+    const expected = [10, 10, 20, 49, 84, 100, 69, 33, 14, 10]
     const result = bellCurve({
       entries: 10,
       range: [10, 100],
@@ -23,6 +23,7 @@ describe(`bellcurve`, () => {
       normalizeAt: 50,
     })
 
+    console.log(result)
     expect(result).toEqual(expected)
   })
 

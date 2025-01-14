@@ -14,7 +14,7 @@ type EntryLessInterval = Omit<CalculateTimestampInterval, "entries">
 type EntryLessStart = Omit<FillTimeStampFromStart, "entries">
 type EntryLessEnd = Omit<FillTimeStampToEnd, "entries">
 
-type FitTimeToShapeOptions = {
+export type FitTimeToShapeOptions = {
   shapes: Shape[]
   time: EntryLessEnd | EntryLessInterval | EntryLessStart
 }

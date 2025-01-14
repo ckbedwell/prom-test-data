@@ -16,6 +16,7 @@
   },
   "type": "module",
   "devDependencies": {
+    "dotenv": "^16.4.7",
     "tsx": "^4.19.2",
     "vitest": "^2.1.6"
   }
