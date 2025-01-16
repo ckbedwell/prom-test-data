@@ -17,10 +17,12 @@ export function percentSuccess({
 
   return [
     {
+      type: `line`,
       range: [1, 1],
       entries: successEntries,
     },
     {
+      type: `line`,
       range: [0, 0],
       entries: failureEntries,
     },

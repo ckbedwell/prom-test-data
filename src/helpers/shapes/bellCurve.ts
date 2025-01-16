@@ -1,12 +1,8 @@
 import { BellCurve } from "./shapes.types.ts"
 
-export function bellCurve({
-  entries,
-  range,
-  curvePeakAt,
-  normalizeAt = 100,
-  stdDevFactor = 6,
-}: BellCurve) {
+export function bellCurve({ entries, range, attrs }: BellCurve) {
+  const { curvePeakAt, normalizeAt = 100, stdDevFactor = 6 } = attrs
+
   if (curvePeakAt < 0 || curvePeakAt > 100) {
     throw new Error("curvePeakAt must be between 0 and 100")
   }

@@ -7,6 +7,7 @@ describe(`single line entry`, () => {
     const res = sampleFromShapes({
       shapes: [
         {
+          type: `line`,
           range: [1, 24],
           entries: 24,
         },
@@ -49,6 +50,7 @@ describe(`single line entry`, () => {
     const res = sampleFromShapes({
       shapes: [
         {
+          type: `line`,
           range: [1, 24],
           entries: 24,
         },
@@ -91,6 +93,7 @@ describe(`single line entry`, () => {
     const res = sampleFromShapes({
       shapes: [
         {
+          type: `line`,
           range: [1, 24],
           entries: 12,
         },
@@ -123,10 +126,12 @@ describe(`multi line entry`, () => {
     const res = sampleFromShapes({
       shapes: [
         {
+          type: `line`,
           range: [1, 24],
           entries: 24,
         },
         {
+          type: `line`,
           range: [23, 0],
           entries: 24,
         },

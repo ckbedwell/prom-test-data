@@ -1,7 +1,4 @@
-import {
-  FitTimeToShapeOptions,
-  sampleFromShapes,
-} from "../../helpers/samples/sampleFromShapes.ts"
+import { FitTimeToShapeOptions } from "../../helpers/samples/sampleFromShapes.ts"
 import {
   ONE_HOUR,
   ONE_MINUTE,
@@ -14,16 +11,18 @@ import { writeSummary } from "../../helpers/write/writeSummary.ts"
 
 const end = new Date().getTime()
 
-const samplesInput: FitTimeToShapeOptions = {
-  shapes: percentSuccess({ percentage: 90, entries: 40 }),
-  time: {
-    end,
-    interval: ONE_SECOND * 15,
+const samplesInput: FitTimeToShapeOptions[] = [
+  {
+    shapes: percentSuccess({ percentage: 90, entries: 40 }),
+    time: {
+      end,
+      interval: ONE_SECOND * 15,
+    },
   },
-}
+]
 
 writeWithLog({
-  input: samplesInput,
+  inputs: samplesInput,
   metricName: "probe_success",
   labels: {
     job: "test_job",
@@ -35,7 +34,7 @@ writeWithLog({
 })
 
 writeWithLog({
-  input: samplesInput,
+  inputs: samplesInput,
   metricName: "probe_success",
   labels: {
     job: "test_job",

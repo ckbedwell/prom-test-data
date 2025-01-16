@@ -12,12 +12,12 @@ type MetricWritten = {
 }
 
 export async function writeWithLog({
-  input,
+  inputs,
   labels,
   metricName,
   callback,
 }: {
-  input: FitTimeToShapeOptions
+  inputs: FitTimeToShapeOptions[]
   labels: Record<string, string>
   metricName: string
   callback?: (
@@ -25,7 +25,7 @@ export async function writeWithLog({
     labels: Record<string, string>
   ) => Promise<{ metricsWritten: MetricWritten[] }>
 }) {
-  const samples = sampleFromShapes(input)
+  const samples = generateSamples(inputs)
 
   const result = await write({
     samples,
@@ -47,11 +47,19 @@ export async function writeWithLog({
   ])
 
   writeLogFile({
-    input,
+    inputs,
     ...metricsWritten,
     labels,
     result,
   })
+}
+
+function generateSamples(inputs: FitTimeToShapeOptions[]): Sample[] {
+  return inputs
+    .map((input) => {
+      return sampleFromShapes(input)
+    })
+    .flat()
 }
 
 function generateMetricsWritten(metricsWritten: MetricWritten[]) {

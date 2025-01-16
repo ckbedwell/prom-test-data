@@ -1,10 +1,13 @@
 import { assignValues } from "../general/assignValues.ts"
 import { multiShape } from "../shapes/multiShape.ts"
-import { Shape } from "../shapes/shapes.types.ts"
+import { BellCurve, Curve, Line, Shape } from "../shapes/shapes.types.ts"
 import { calculateTimeStampEntries } from "../time/calculateTimeStampEntries.ts"
 import { CalculateTimeStampEntries } from "../time/time.types.ts"
 
-type EntryLessShape = Omit<Shape, "entries">
+type EntryLessShape =
+  | Omit<Line, "entries">
+  | Omit<Curve, "entries">
+  | Omit<BellCurve, "entries">
 
 // assume constant time across shapes
 type FitShapeToTimeOptions = {
@@ -19,7 +22,7 @@ export function sampleFromTime(options: FitShapeToTimeOptions) {
   const entriesPerShape = Math.floor(entries / numberOfShapes)
   const remainder = entries % numberOfShapes
 
-  const shapes = options.shapes.map((shape, index) => {
+  const shapes: Shape[] = options.shapes.map((shape, index) => {
     const shapeEntries = entriesPerShape + (index < remainder ? 1 : 0)
     return { ...shape, entries: shapeEntries }
   })

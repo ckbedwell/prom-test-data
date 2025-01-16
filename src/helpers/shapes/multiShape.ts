@@ -1,28 +1,30 @@
 import { bellCurve } from "./bellCurve.ts"
 import { curve } from "./curve.ts"
 import { line } from "./line.ts"
-import { BellCurve, Curve, Shape } from "./shapes.types.ts"
+import { Shape } from "./shapes.types.ts"
 
-export function multiShape(shapes: Shape[]) {
-  return shapes
+interface Options {
+  randomize?: boolean
+}
+
+export function multiShape(shapes: Shape[], options?: Options) {
+  const flatShapes = shapes
     .map((shape) => {
-      if (isBellCurve(shape)) {
+      if (shape.type === `bellCurve`) {
         return bellCurve(shape)
       }
 
-      if (isCurve(shape)) {
+      if (shape.type === `curve`) {
         return curve(shape)
       }
 
       return line(shape)
     })
     .flat()
-}
 
-function isBellCurve(shape: Shape): shape is BellCurve {
-  return shape.hasOwnProperty("curvePeakAt")
-}
+  if (options?.randomize) {
+    return flatShapes.sort(() => Math.random() - 0.5)
+  }
 
-function isCurve(shape: Shape): shape is Curve {
-  return shape.hasOwnProperty("rate")
+  return flatShapes
 }

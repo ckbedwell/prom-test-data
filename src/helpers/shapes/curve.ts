@@ -1,6 +1,7 @@
 import { Curve } from "./shapes.types.ts"
 
-export function curve({ entries, rate, range }: Curve) {
+export function curve({ entries, range, attrs }: Curve) {
+  const { rate } = attrs
   const [start, end] = range
   const result: number[] = []
 

@@ -6,6 +6,7 @@ test(`should generate a sample when shapes have no entries`, () => {
   const res = sampleFromTime({
     shapes: [
       {
+        type: `line`,
         range: [1, 24],
       },
     ],

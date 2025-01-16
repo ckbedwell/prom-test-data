@@ -17,6 +17,9 @@ type EntryLessEnd = Omit<FillTimeStampToEnd, "entries">
 export type FitTimeToShapeOptions = {
   shapes: Shape[]
   time: EntryLessEnd | EntryLessInterval | EntryLessStart
+  options?: {
+    randomize?: boolean
+  }
 }
 
 export function sampleFromShapes(options: FitTimeToShapeOptions) {
