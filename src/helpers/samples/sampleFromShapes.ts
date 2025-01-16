@@ -1,4 +1,4 @@
-import { assignValues } from "../general/assignValues.ts"
+import { assignValues, AssignValuesOptions } from "../general/assignValues.ts"
 import { multiShape } from "../shapes/multiShape.ts"
 import { Shape } from "../shapes/shapes.types.ts"
 import { calculateTimeStampInterval } from "../time/calculateTimeStampInterval.ts"
@@ -14,39 +14,43 @@ type EntryLessInterval = Omit<CalculateTimestampInterval, "entries">
 type EntryLessStart = Omit<FillTimeStampFromStart, "entries">
 type EntryLessEnd = Omit<FillTimeStampToEnd, "entries">
 
+type EntryLessTime = EntryLessEnd | EntryLessInterval | EntryLessStart
+
 export type FitTimeToShapeOptions = {
   shapes: Shape[]
-  time: EntryLessEnd | EntryLessInterval | EntryLessStart
-  options?: {
-    randomize?: boolean
-  }
+  time: EntryLessTime
+  options?: AssignValuesOptions
 }
 
-export function sampleFromShapes(options: FitTimeToShapeOptions) {
-  const shapeValues = multiShape(options.shapes)
+export function sampleFromShapes({
+  shapes,
+  time,
+  options,
+}: FitTimeToShapeOptions) {
+  const shapeValues = multiShape(shapes)
   const entries = shapeValues.length
-  const timestamps = calculateTimestamps(options, entries)
+  const timestamps = calculateTimestamps(time, entries)
 
-  return assignValues(shapeValues, timestamps)
+  return assignValues(shapeValues, timestamps, options)
 }
 
-function calculateTimestamps(options: FitTimeToShapeOptions, entries: number) {
-  if ("end" in options.time && "start" in options.time) {
+function calculateTimestamps(time: EntryLessTime, entries: number) {
+  if ("end" in time && "start" in time) {
     return calculateTimeStampInterval({
-      ...options.time,
+      ...time,
       entries,
     })
   }
 
-  if ("start" in options.time) {
+  if ("start" in time) {
     return fillTimeStampEntriesFromStart({
-      ...options.time,
+      ...time,
       entries,
     })
   }
 
   return fillTimeStampEntriesToEnd({
-    ...options.time,
+    ...time,
     entries,
   })
 }

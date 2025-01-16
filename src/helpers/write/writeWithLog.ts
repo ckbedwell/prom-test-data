@@ -1,9 +1,5 @@
 import { Sample } from "prometheus-remote-write/types.js"
 import { writeLogFile } from "../log/writeLogFile.ts"
-import {
-  FitTimeToShapeOptions,
-  sampleFromShapes,
-} from "../samples/sampleFromShapes.ts"
 import { write } from "./write.ts"
 
 type MetricWritten = {
@@ -11,22 +7,24 @@ type MetricWritten = {
   samples: Sample[]
 }
 
-export async function writeWithLog({
-  inputs,
-  labels,
-  metricName,
-  callback,
-}: {
-  inputs: FitTimeToShapeOptions[]
+interface WriteWithLog {
+  samples: Sample[]
   labels: Record<string, string>
   metricName: string
+  writeToLog?: Record<string, unknown>
   callback?: (
     samples: Sample[],
     labels: Record<string, string>
   ) => Promise<{ metricsWritten: MetricWritten[] }>
-}) {
-  const samples = generateSamples(inputs)
+}
 
+export async function writeWithLog({
+  samples,
+  labels,
+  metricName,
+  writeToLog = {},
+  callback,
+}: WriteWithLog) {
   const result = await write({
     samples,
     labels: {
@@ -47,19 +45,11 @@ export async function writeWithLog({
   ])
 
   writeLogFile({
-    inputs,
-    ...metricsWritten,
-    labels,
     result,
+    labels,
+    ...writeToLog,
+    ...metricsWritten,
   })
-}
-
-function generateSamples(inputs: FitTimeToShapeOptions[]): Sample[] {
-  return inputs
-    .map((input) => {
-      return sampleFromShapes(input)
-    })
-    .flat()
 }
 
 function generateMetricsWritten(metricsWritten: MetricWritten[]) {

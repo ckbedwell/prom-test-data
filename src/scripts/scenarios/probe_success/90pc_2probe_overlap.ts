@@ -24,31 +24,37 @@ const time = {
 
 const shapes = percentSuccess({ percentage: 90, entries: 40 })
 
-const inputs = [
-  {
-    shapes,
-    time,
-  },
-]
+const inputs = {
+  shapes,
+  time,
+}
 
 const labels = {
   job: "test_job",
   instance: "https://testinstance.com",
 }
 
+const samples = sampleFromShapes(inputs)
+
 Promise.all([
   writeProbeSuccess({
-    inputs,
+    samples,
     labels: {
       ...labels,
       probe: "probe1",
     },
+    writeToLog: {
+      inputs,
+    },
   }),
   writeProbeSuccess({
-    inputs,
+    samples,
     labels: {
       ...labels,
       probe: "probe2",
+    },
+    writeToLog: {
+      inputs,
     },
   }),
 ])

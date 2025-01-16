@@ -23,36 +23,48 @@ const time = {
 }
 
 const shapes = percentSuccess({ percentage: 90, entries: 40 })
+const reversedShapes = shapes.slice().reverse()
+
 const labels = {
   job: "test_job",
   instance: "https://testinstance.com",
 }
 
+const inputs = {
+  shapes,
+  time,
+}
+
+const reversedInputs = {
+  shapes: reversedShapes,
+  time,
+}
+
 Promise.all([
   writeProbeSuccess({
-    inputs: [
-      {
-        shapes,
-        time,
-      },
-    ],
+    samples: sampleFromShapes({
+      shapes,
+      time,
+    }),
     labels: {
       ...labels,
       probe: "probe1",
     },
+    writeToLog: {
+      inputs,
+    },
   }),
   writeProbeSuccess({
-    inputs: [
-      {
-        time,
-        shapes: [...shapes].reverse(),
-      },
-    ],
+    samples: sampleFromShapes({
+      shapes: reversedShapes,
+      time,
+    }),
     labels: {
       ...labels,
       probe: "probe2",
     },
+    writeToLog: {
+      inputs: reversedInputs,
+    },
   }),
 ])
-
-// 90pc_2probe_no_overlap.ts

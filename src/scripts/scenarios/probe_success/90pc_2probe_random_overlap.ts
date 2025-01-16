@@ -10,9 +10,7 @@ import {
 import { percentSuccess } from "../../../helpers/scenarios/percentSuccess.ts"
 import { writeProbeSuccess } from "../../../metrics/probe_success.ts"
 
-// Two probes, each with a 90% success rate with overlapping results
-// probe1 failures are at the end
-// probe2 failures are at the end
+// Two probes, each with a 90% success rate with shared random positions
 // expected results: 90% UPTIME, 90% REACHABILITY
 // probe1: 90% uptime
 // probe2: 90% uptime
@@ -24,12 +22,15 @@ const time = {
 
 const shapes = percentSuccess({ percentage: 90, entries: 40 })
 
-const inputs: FitTimeToShapeOptions[] = [
-  {
-    shapes,
-    time,
+const inputs: FitTimeToShapeOptions = {
+  shapes,
+  time,
+  options: {
+    randomize: true,
   },
-]
+}
+
+const samples = sampleFromShapes(inputs)
 
 const labels = {
   job: "test_job",
@@ -38,17 +39,23 @@ const labels = {
 
 Promise.all([
   writeProbeSuccess({
-    inputs,
+    samples,
     labels: {
       ...labels,
       probe: "probe1",
     },
+    writeToLog: {
+      inputs,
+    },
   }),
   writeProbeSuccess({
-    inputs,
+    samples,
     labels: {
       ...labels,
       probe: "probe2",
+    },
+    writeToLog: {
+      inputs,
     },
   }),
 ])
