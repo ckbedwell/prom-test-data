@@ -1,7 +1,4 @@
-import {
-  FitTimeToShapeOptions,
-  sampleFromShapes,
-} from "../../../helpers/samples/sampleFromShapes.ts"
+import { sampleFromShapes } from "../../../helpers/samples/sampleFromShapes.ts"
 import {
   ONE_HOUR,
   ONE_MINUTE,

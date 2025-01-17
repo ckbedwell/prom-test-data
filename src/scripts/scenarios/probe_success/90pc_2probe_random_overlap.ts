@@ -33,7 +33,7 @@ const inputs: FitTimeToShapeOptions = {
 const samples = sampleFromShapes(inputs)
 
 const labels = {
-  job: "test_job",
+  job: "test_job1",
   instance: "https://testinstance.com",
 }
 
