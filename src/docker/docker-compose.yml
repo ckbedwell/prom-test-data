@@ -1,0 +1,12 @@
+services:
+  mimir:
+    image: grafana/mimir:2.15.0
+    container_name: mimir
+    volumes:
+      - ./data-compactor:/data-compactor
+      - ./data:/data
+      - ./mimir.yaml:/etc/mimir/mimir-config.yml
+    command: ["-config.file=/etc/mimir/mimir-config.yml"]
+    ports:
+      - "9009:9009"
+      - "8080:8080"

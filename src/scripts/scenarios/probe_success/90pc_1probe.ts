@@ -13,10 +13,10 @@ import { writeProbeSuccess } from "../../../metrics/probe_success.ts"
 
 const time = {
   end: new Date().getTime(),
-  interval: ONE_SECOND * 15,
+  interval: ONE_MINUTE,
 }
 
-const shapes = percentSuccess({ percentage: 90, entries: 40 })
+const shapes = percentSuccess({ percentage: 90, entries: 120 })
 
 const inputs = {
   shapes,
@@ -24,7 +24,7 @@ const inputs = {
 }
 
 const labels = {
-  job: "test_job",
+  job: "whereevs",
   instance: "https://testinstance.com",
 }
 

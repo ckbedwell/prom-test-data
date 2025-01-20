@@ -17,12 +17,12 @@ import { writeProbeSuccess } from "../../../metrics/probe_success.ts"
 
 const time = {
   end: new Date().getTime(),
-  interval: ONE_SECOND * 15,
+  interval: ONE_MINUTE,
 }
 
-const shapes = percentSuccess({ percentage: 90, entries: 40 })
+const shapes = percentSuccess({ percentage: 90, entries: 525600 })
 
-const inputs: FitTimeToShapeOptions = {
+const inputs = {
   shapes,
   time,
   options: {
@@ -33,7 +33,7 @@ const inputs: FitTimeToShapeOptions = {
 const samples = sampleFromShapes(inputs)
 
 const labels = {
-  job: "test_job1",
+  job: "test_job2",
   instance: "https://testinstance.com",
 }
 

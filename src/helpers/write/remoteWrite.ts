@@ -2,17 +2,15 @@ import { pushTimeseries, Sample } from "prometheus-remote-write"
 
 import { config } from "./config.ts"
 import { log } from "../log/log.ts"
+import { Labels } from "./write.types.ts"
 
-type Labels = Record<string, string> & {
-  __name__: string
-}
 
 interface Write {
   labels: Labels
   samples: Sample[]
 }
 
-export function write({ labels, samples }: Write) {
+export function remoteWrite({ labels, samples }: Write) {
   return pushTimeseries(
     {
       labels,
