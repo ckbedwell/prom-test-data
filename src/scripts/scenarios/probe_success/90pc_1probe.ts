@@ -13,10 +13,14 @@ import { writeProbeSuccess } from "../../../metrics/probe_success.ts"
 
 const time = {
   end: new Date().getTime(),
-  interval: ONE_MINUTE,
+  interval: ONE_SECOND * 15,
 }
 
-const shapes = percentSuccess({ percentage: 90, entries: 120 })
+// 4 per minute
+// 240 per hour
+
+
+const shapes = percentSuccess({ percentage: 90, entries: 480 })
 
 const inputs = {
   shapes,
@@ -24,7 +28,7 @@ const inputs = {
 }
 
 const labels = {
-  job: "whereevs",
+  job: "test_job",
   instance: "https://testinstance.com",
 }
 
@@ -36,6 +40,7 @@ Promise.all([
     labels: {
       ...labels,
       probe: "probe1",
+      isolate: "bread"
     },
     writeToLog: {
       inputs,

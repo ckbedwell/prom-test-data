@@ -1,10 +1,11 @@
 import { Sample } from "prometheus-remote-write/types.js";
 import path from 'path'
 import { MetricToWrite } from "./write.types.ts";
-import { mkdir, writeFile, existsSync } from "node:fs"
+import { mkdir, writeFileSync, existsSync } from "node:fs"
 import { sanitizeFileName } from "./write.utils.ts";
+import { runBackfill } from "./runBackfill.ts";
 
-export function writeOpenMetrics(input: MetricToWrite[]) {
+export async function writeOpenMetrics(input: MetricToWrite[]) {
   const openMetricsDir = path.resolve(`./open_metrics`)
 
   if (!existsSync(openMetricsDir)) {
@@ -17,15 +18,19 @@ export function writeOpenMetrics(input: MetricToWrite[]) {
 
   const timestamp = new Date().toISOString()
   const sanitizedTimestamp = sanitizeFileName(timestamp)
-  const fileName = `${sanitizedTimestamp}.json`
-  const filePath = path.resolve(`./logs/${fileName}`)
+  const fileName = `${sanitizedTimestamp}.txt`
+  const filePath = path.resolve(`./open_metrics/${fileName}`)
 
 
-  writeFile(filePath, JSON.stringify(writeOutput(input), null, 2), (err) => {
-    if (err) {
-      console.error(`Error writing file ${filePath}:  ${err}`)
-    }
-  })
+  try {
+    writeFileSync(filePath, writeOutput(input))
+    console.log(`Wrote OpenMetrics to ${filePath}`)
+    await runBackfill(filePath)
+    return filePath
+  } catch (err) {
+    console.error(`Error writing file ${filePath}:  ${err}`)
+    throw err
+  }
 }
 
 export function writeOutput(input: MetricToWrite[]) {

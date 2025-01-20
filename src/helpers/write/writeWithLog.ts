@@ -3,6 +3,7 @@ import { writeLogFile } from "../log/writeLogFile.ts"
 import { remoteWrite } from "./remoteWrite.ts"
 import { MetricToWrite, WriteOptions } from "./write.types.ts"
 import { writeOpenMetrics } from "./writeOpenMetrics.ts"
+import { getWriteMethod } from "./getWriteMethod.ts"
 
 interface WriteWithLog {
   metrics: MetricToWrite[]
@@ -13,31 +14,45 @@ interface WriteWithLog {
 export async function writeWithLog({
   metrics,
   writeToLog = {},
-  options = { method: `remote` },
+  options,
 }: WriteWithLog) {
-  await write(metrics, options)
+  const writeMethod = await write(metrics, options)
 
-  const metricsWritten = metrics.map(({ labels, samples }, i) => {
+  const metricsWritten = metrics.reduce((acc, { labels, samples }) => {
+    const { __name__, ...restLabels } = labels
+
     return {
-      labels,
-      metricName: labels.__name__,
-      samples: readableTimeStamps(samples),
+      ...acc,
+      [__name__]: {
+        labels: restLabels,
+        samples: readableTimeStamps(samples)
+      },
     }
-  })
+  }, {})
 
   writeLogFile({
+    writeMethod: {
+      requested: options?.method,
+      used: writeMethod
+    },
     ...writeToLog,
     ...metricsWritten,
   })
 }
 
-function write(metrics: MetricToWrite[], options: WriteOptions) {
-  if (options.method === `remote`) {
-    return Promise.all(metrics.map(metrics => remoteWrite(metrics)))
+async function write(metrics: MetricToWrite[], options?: WriteOptions) {
+  const writeMethod = getWriteMethod(metrics, options)
+
+  if (writeMethod === `backfill`) {
+    writeOpenMetrics(metrics)
+    return `backfill`
   }
 
-  return writeOpenMetrics(metrics)
+  await Promise.all(metrics.map(metrics => remoteWrite(metrics)))
+
+  return `remoteWrite`
 }
+
 
 function readableTimeStamps(samples: Sample[]) {
   return samples.map(({ timestamp, value }) => ({
