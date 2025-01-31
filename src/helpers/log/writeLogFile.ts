@@ -1,8 +1,9 @@
 import { mkdir, writeFile, existsSync } from "node:fs"
 import path from "path"
-import { sanitizeFileName } from "../write/write.utils.ts"
+import { getFileName } from "../write/write.utils.ts"
+import { WriteOptions } from "../write/write.types.ts"
 
-export function writeLogFile(input: Object) {
+export function writeLogFile(input: Object, options?: WriteOptions) {
   const logsDir = path.resolve(`./logs`)
 
   if (!existsSync(logsDir)) {
@@ -13,9 +14,7 @@ export function writeLogFile(input: Object) {
     })
   }
 
-  const timestamp = new Date().toISOString()
-  const sanitizedTimestamp = sanitizeFileName(timestamp)
-  const fileName = `${sanitizedTimestamp}.json`
+  const fileName = `${getFileName(options)}.json`
   const filePath = path.resolve(`./logs/${fileName}`)
 
   writeFile(filePath, JSON.stringify(input, null, 2), (err) => {

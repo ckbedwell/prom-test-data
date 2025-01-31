@@ -16,5 +16,6 @@ export interface MetricToWrite {
 }
 
 export interface WriteOptions {
-  method: `backfill` | `remote`
+  method?: `backfill` | `remote`
+  filename?: string
 }

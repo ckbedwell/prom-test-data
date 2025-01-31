@@ -6,7 +6,8 @@
   "scripts": {
     "start": "tsx",
     "test": "vitest",
-    "backfill": "promtool tsdb create-blocks-from openmetrics \"$1\" --max-block-duration 24h"
+    "backfill": "promtool tsdb create-blocks-from openmetrics \"$1\" --max-block-duration 24h",
+    "prom": "docker compose -f ./src/docker/docker-compose.yml up -d"
   },
   "author": "",
   "license": "ISC",

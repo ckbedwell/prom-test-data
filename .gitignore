@@ -2,3 +2,6 @@ node_modules
 .env
 /logs
 /open_metrics
+/src/docker/blocks
+/src/docker/input
+.DS_Store

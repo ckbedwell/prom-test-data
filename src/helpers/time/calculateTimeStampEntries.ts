@@ -1,3 +1,4 @@
+import { calculateTimeStampInterval } from "./calculateTimeStampInterval.ts"
 import { CalculateTimeStampEntries } from "./time.types.ts"
 
 export function calculateTimeStampEntries(args: CalculateTimeStampEntries) {
@@ -9,7 +10,8 @@ export function calculateTimeStampEntries(args: CalculateTimeStampEntries) {
 
   const entries = Math.round((end - start) / args.interval)
 
-  return Array.from({ length: entries }, (_, i) => {
-    return Math.round(start + i * ((end - start) / entries))
+  return calculateTimeStampInterval({
+    ...args,
+    entries,
   })
 }

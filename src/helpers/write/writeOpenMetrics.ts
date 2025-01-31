@@ -1,12 +1,12 @@
 import { Sample } from "prometheus-remote-write/types.js";
 import path from 'path'
-import { MetricToWrite } from "./write.types.ts";
+import { MetricToWrite, WriteOptions } from "./write.types.ts";
 import { mkdir, writeFileSync, existsSync } from "node:fs"
-import { sanitizeFileName } from "./write.utils.ts";
+import { getFileName } from "./write.utils.ts";
 import { runBackfill } from "./runBackfill.ts";
 
-export async function writeOpenMetrics(input: MetricToWrite[]) {
-  const openMetricsDir = path.resolve(`./open_metrics`)
+export async function writeOpenMetrics(input: MetricToWrite[], options?: WriteOptions) {
+  const openMetricsDir = path.resolve(`./src/docker/input`)
 
   if (!existsSync(openMetricsDir)) {
     mkdir(openMetricsDir, {}, (err) => {
@@ -16,22 +16,39 @@ export async function writeOpenMetrics(input: MetricToWrite[]) {
     })
   }
 
-  const timestamp = new Date().toISOString()
-  const sanitizedTimestamp = sanitizeFileName(timestamp)
-  const fileName = `${sanitizedTimestamp}.txt`
-  const filePath = path.resolve(`./open_metrics/${fileName}`)
-
+  const fileName = `${getFileName(options)}.txt`
+  const filePath = path.resolve(`./src/docker/input/${fileName}`)
 
   try {
     writeFileSync(filePath, writeOutput(input))
     console.log(`Wrote OpenMetrics to ${filePath}`)
-    await runBackfill(filePath)
+
+    // occasionally it errors out and the backfill says it can't find the file
+    // despite the the file being there.
+    await new Promise((resolve, reject) => {
+      let timeout = setTimeout(() => {
+        clearTimeout(timeout)
+        clearInterval(interval)
+        reject(`couldn't find file ${filePath}`)
+      }, 1000)
+
+      let interval = setInterval(() => {
+        if (existsSync(filePath)) {
+          clearTimeout(timeout)
+          clearInterval(interval)
+          resolve(true)
+        }
+      }, 5)
+    })
+
+    await runBackfill(fileName)
     return filePath
   } catch (err) {
     console.error(`Error writing file ${filePath}:  ${err}`)
     throw err
   }
 }
+
 
 export function writeOutput(input: MetricToWrite[]) {
   const metricsInput = input.map(writeMetric)

@@ -37,14 +37,14 @@ export async function writeWithLog({
     },
     ...writeToLog,
     ...metricsWritten,
-  })
+  }, options)
 }
 
 async function write(metrics: MetricToWrite[], options?: WriteOptions) {
   const writeMethod = getWriteMethod(metrics, options)
 
   if (writeMethod === `backfill`) {
-    writeOpenMetrics(metrics)
+    await writeOpenMetrics(metrics, options)
     return `backfill`
   }
 

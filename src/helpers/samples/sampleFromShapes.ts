@@ -14,7 +14,7 @@ type EntryLessInterval = Omit<CalculateTimestampInterval, "entries">
 type EntryLessStart = Omit<FillTimeStampFromStart, "entries">
 type EntryLessEnd = Omit<FillTimeStampToEnd, "entries">
 
-type EntryLessTime = EntryLessEnd | EntryLessInterval | EntryLessStart
+export type EntryLessTime = EntryLessEnd | EntryLessInterval | EntryLessStart
 
 export type FitTimeToShapeOptions = {
   shapes: Shape[]
@@ -34,7 +34,7 @@ export function sampleFromShapes({
   return assignValues(shapeValues, timestamps, options)
 }
 
-function calculateTimestamps(time: EntryLessTime, entries: number) {
+export function calculateTimestamps(time: EntryLessTime, entries: number) {
   if ("end" in time && "start" in time) {
     return calculateTimeStampInterval({
       ...time,

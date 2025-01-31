@@ -1,9 +1,5 @@
 import { Shape } from "../shapes/shapes.types.ts"
-
-type Ran<T extends number> = number extends T ? number : _Range<T, []>
-type _Range<T extends number, R extends unknown[]> = R["length"] extends T
-  ? R[number] | T
-  : _Range<T, [R["length"], ...R]>
+import { Ran } from "./scenarios.types.ts"
 
 export function percentSuccess({
   percentage,

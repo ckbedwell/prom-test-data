@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest"
-import { ONE_HOUR } from "../time/time.constants.ts"
+import { ONE_HOUR_IN_MS } from "../time/time.constants.ts"
 import { sampleFromShapes } from "./sampleFromShapes.ts"
 
 describe(`single line entry`, () => {
@@ -14,7 +14,7 @@ describe(`single line entry`, () => {
       ],
       time: {
         end: new Date(`2024-01-02`).getTime(),
-        interval: ONE_HOUR,
+        interval: ONE_HOUR_IN_MS,
       },
     })
 
@@ -138,7 +138,7 @@ describe(`multi line entry`, () => {
       ],
       time: {
         end: new Date(`2024-01-02`).getTime(),
-        interval: ONE_HOUR,
+        interval: ONE_HOUR_IN_MS,
       },
     })
 

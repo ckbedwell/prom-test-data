@@ -5,10 +5,12 @@ describe(`probe_success`, () => {
   test(`100% success`, () => {
     const expected = [
       {
+        type: `line`,
         range: [1, 1],
         entries: 100,
       },
       {
+        type: `line`,
         range: [0, 0],
         entries: 0,
       },
@@ -21,10 +23,12 @@ describe(`probe_success`, () => {
   test(`99% success`, () => {
     const expected = [
       {
+        type: `line`,
         range: [1, 1],
         entries: 99,
       },
       {
+        type: `line`,
         range: [0, 0],
         entries: 1,
       },
@@ -37,10 +41,12 @@ describe(`probe_success`, () => {
   test(`50% success`, () => {
     const expected = [
       {
+        type: `line`,
         range: [1, 1],
         entries: 50,
       },
       {
+        type: `line`,
         range: [0, 0],
         entries: 50,
       },

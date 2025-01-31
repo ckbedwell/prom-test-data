@@ -1,6 +1,6 @@
 import { expect, test } from "vitest"
 import { sampleFromTime } from "./sampleFromTime.ts"
-import { ONE_HOUR } from "../time/time.constants.ts"
+import { ONE_HOUR_IN_MS } from "../time/time.constants.ts"
 
 test(`should generate a sample when shapes have no entries`, () => {
   const res = sampleFromTime({
@@ -13,7 +13,7 @@ test(`should generate a sample when shapes have no entries`, () => {
     time: {
       end: new Date(`2024-01-02`).getTime(),
       start: new Date(`2024-01-01`).getTime(),
-      interval: ONE_HOUR,
+      interval: ONE_HOUR_IN_MS,
     },
   })
 

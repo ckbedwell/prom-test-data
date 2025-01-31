@@ -3,18 +3,19 @@ import { writeWithLog } from "../helpers/write/writeWithLog.ts"
 import { summary } from "../helpers/types/summary.ts"
 import { MetricToWrite, WriteOptions } from "../helpers/write/write.types.ts"
 
+export type WriteProbeSuccess = {
+  samples: Sample[]
+  labels: Record<string, string>
+  writeToLog?: Record<string, unknown>
+}
+
+
 export function writeProbeSuccess({
   samples,
   labels,
   writeToLog,
-  options,
-}: {
-  samples: Sample[]
-  labels: Record<string, string>
-  writeToLog?: Record<string, unknown>
-  options?: WriteOptions
-}) {
-  const { sum, count } = summary(samples,)
+}: WriteProbeSuccess, options?: WriteOptions) {
+  const { sum, count } = summary(samples)
 
   const metrics: MetricToWrite[] = [
     {

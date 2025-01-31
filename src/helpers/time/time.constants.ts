@@ -1,3 +1,13 @@
-export const ONE_SECOND = 1000
-export const ONE_MINUTE = 60 * ONE_SECOND
-export const ONE_HOUR = 60 * ONE_MINUTE
+export const ONE_SECOND_IN_MS = 1000
+export const ONE_MINUTE_IN_MS = 60 * ONE_SECOND_IN_MS
+export const ONE_HOUR_IN_MS = 60 * ONE_MINUTE_IN_MS
+export const ONE_DAY_IN_MS = 24 * ONE_HOUR_IN_MS
+export const ONE_WEEK_IN_MS = 7 * ONE_DAY_IN_MS
+export const ONE_MONTH_IN_MS = 30 * ONE_DAY_IN_MS
+export const ONE_YEAR_IN_MS = 365 * ONE_DAY_IN_MS
+
+export const ONE_HOUR_IN_MINUTES = 60
+export const ONE_DAY_IN_MINUTES = 24 * ONE_HOUR_IN_MINUTES
+export const ONE_WEEK_IN_MINUTES = 7 * ONE_DAY_IN_MINUTES
+export const ONE_MONTH_IN_MINUTES = 365 / 12 * ONE_DAY_IN_MINUTES
+export const ONE_YEAR_IN_MINUTES = 365 * ONE_DAY_IN_MINUTES
