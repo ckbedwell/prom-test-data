@@ -10,7 +10,7 @@ type EntryLessShape =
   | Omit<BellCurve, "entries">
 
 // assume constant time across shapes
-type FitShapeToTimeOptions = {
+export type FitShapeToTimeOptions = {
   shapes: EntryLessShape[]
   time: CalculateTimeStampEntries
   options?: AssignValuesOptions

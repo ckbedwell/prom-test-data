@@ -1,17 +1,17 @@
 import { expect, test } from "vitest"
 import { calculateTimeStampEntries } from "./calculateTimeStampEntries.ts"
-import { ONE_HOUR_IN_MS, ONE_SECOND_IN_MS } from "./time.constants.ts"
+import { ONE_DAY_IN_MS, ONE_HOUR_IN_MS, ONE_SECOND_IN_MS } from "./time.constants.ts"
 
 test(`should generate timestamp entries at constant intervals between start and end date`, () => {
   const dateString = `2024-01-01`
 
   const res = calculateTimeStampEntries({
-    end: new Date(`2024-01-02`).getTime(),
+    end: new Date(dateString).getTime() + ONE_DAY_IN_MS,
     interval: ONE_HOUR_IN_MS,
     start: new Date(dateString).getTime(),
   })
 
-  expect(res.length).toEqual(24)
+  expect(res.length).toEqual(25)
   expect(res.map((t) => new Date(t).toISOString())).toStrictEqual([
     `${dateString}T00:00:00.000Z`,
     `${dateString}T01:00:00.000Z`,
@@ -37,6 +37,7 @@ test(`should generate timestamp entries at constant intervals between start and 
     `${dateString}T21:00:00.000Z`,
     `${dateString}T22:00:00.000Z`,
     `${dateString}T23:00:00.000Z`,
+    `2024-01-02T00:00:00.000Z`
   ])
 })
 
@@ -50,11 +51,11 @@ test(`should add a random five second offset to the entries`, () => {
     start: new Date(dateString).getTime(),
     random: {
       maxOffset: ONE_SECOND_IN_MS * 5,
-      blipLikelyHood: 100,
+      blipLiklihood: 1,
     },
   })
 
-  expect(res.length).toEqual(24)
+  expect(res.length).toEqual(25)
   expect(res.map((t) => new Date(t).toISOString())).not.toStrictEqual([
     `${dateString}T00:00:00.000Z`,
     `${dateString}T01:00:00.000Z`,
@@ -80,6 +81,7 @@ test(`should add a random five second offset to the entries`, () => {
     `${dateString}T21:00:00.000Z`,
     `${dateString}T22:00:00.000Z`,
     `${dateString}T23:00:00.000Z`,
+    `2024-01-02T00:00:00.000Z`
   ])
 })
 

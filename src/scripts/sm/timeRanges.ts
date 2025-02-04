@@ -1,5 +1,5 @@
-import { EntryLessTime } from '../helpers/samples/sampleFromShapes.ts'
-import { ONE_HOUR_IN_MS, ONE_MINUTE_IN_MS, ONE_MONTH_IN_MINUTES, ONE_SECOND_IN_MS, ONE_YEAR_IN_MINUTES } from '../helpers/time/time.constants.ts'
+import { EntryLessTime } from '../../helpers/samples/sampleFromShapes.ts'
+import { ONE_MINUTE_IN_MS, ONE_MONTH_IN_MINUTES, ONE_SECOND_IN_MS, ONE_YEAR_IN_MINUTES } from '../../helpers/time/time.constants.ts'
 
 const ENDING_DATE = new Date(`Tue Jan 20 2025 12:00:00`).getTime()
 
@@ -48,6 +48,6 @@ const ONE_YEAR: TimeRange = {
 export const TIME_RANGES = [
   TEN_MINUTES,
   THREE_HOURS,
-  // SIX_MONTHS,
-  // ONE_YEAR
+  SIX_MONTHS,
+  ONE_YEAR
 ]

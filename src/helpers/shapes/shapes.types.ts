@@ -23,4 +23,8 @@ export interface BellCurve extends ShapeBase {
   }
 }
 
-export type Shape = Line | Curve | BellCurve
+export interface Random extends ShapeBase {
+  type: `random`
+}
+
+export type Shape = Line | Curve | BellCurve | Random

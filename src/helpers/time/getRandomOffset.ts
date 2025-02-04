@@ -19,8 +19,6 @@ export function getRandomOffset(randomOffset?: RandomOffsets) {
   return 0
 }
 
-export function shouldBlip(blipLikelyHood: number) {
-  const likelihood = blipLikelyHood / 100
-
+export function shouldBlip(likelihood: number) {
   return Math.random() < likelihood
 }

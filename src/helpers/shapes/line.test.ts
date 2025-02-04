@@ -80,4 +80,82 @@ describe(`line`, () => {
       expect(result).toEqual(expected)
     })
   })
+
+  describe(`even split`, () => {
+    test(`8 entries | range 0-4`, () => {
+      // not enough for an even split so takes from the end
+      const expected = [0, 0, 1, 1, 2, 2, 3, 4]
+      const result = line({
+        type: `line`,
+        entries: 8,
+        range: [0, 4],
+      })
+
+      expect(result).toEqual(expected)
+    })
+
+    test(`23 entries | range 0-4`, () => {
+      // not enough for an even split so takes from the end
+      const expected = [
+        0, 0, 0, 0, 0,
+        1, 1, 1, 1, 1,
+        2, 2, 2, 2, 2,
+        3, 3, 3, 3,
+        4, 4, 4, 4,
+      ]
+      const result = line({
+        type: `line`,
+        entries: 23,
+        range: [0, 4],
+      })
+
+      expect(result).toEqual(expected)
+    })
+
+    test(`9 entries | range 0-4`, () => {
+      // not enough for an even split so takes from the end
+      const expected = [0, 0, 1, 1, 2, 2, 3, 3, 4]
+      const result = line({
+        type: `line`,
+        entries: 9,
+        range: [0, 4],
+      })
+
+      expect(result).toEqual(expected)
+    })
+
+    test(`10 entries | range 0-4`, () => {
+      const expected = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4]
+      const result = line({
+        type: `line`,
+        entries: 10,
+        range: [0, 4],
+      })
+
+      expect(result).toEqual(expected)
+    })
+
+    test(`9 entries | range 1-3`, () => {
+      const expected = [1, 1, 1, 2, 2, 2, 3, 3, 3]
+      const result = line({
+        type: `line`,
+        entries: 9,
+        range: [1, 3],
+      })
+
+      expect(result).toEqual(expected)
+    })
+
+
+    test(`12 entries | range 1-3`, () => {
+      const expected = [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3]
+      const result = line({
+        type: `line`,
+        entries: 12,
+        range: [1, 3],
+      })
+
+      expect(result).toEqual(expected)
+    })
+  })
 })

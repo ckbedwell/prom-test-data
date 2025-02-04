@@ -1,8 +1,6 @@
-import { Ran } from "../scenarios/scenarios.types.ts"
-
 export interface RandomOffsets {
   maxOffset: number
-  blipLiklihood: number
+  blipLiklihood: number // 0 - 1
 }
 
 export interface CalculateTimeStampEntries {

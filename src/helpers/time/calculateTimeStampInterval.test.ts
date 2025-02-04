@@ -2,16 +2,30 @@ import { expect, test } from "vitest"
 import { calculateTimeStampInterval } from "./calculateTimeStampInterval.ts"
 import { ONE_SECOND_IN_MS } from "./time.constants.ts"
 
+test(`should generate two entries`, () => {
+  const res = calculateTimeStampInterval({
+    end: new Date(`2024-01-02`).getTime(),
+    entries: 2,
+    start: new Date(`2024-01-01`).getTime(),
+  })
+
+  expect(res.map((t) => new Date(t).toISOString())).toStrictEqual([
+    `2024-01-01T00:00:00.000Z`,
+    `2024-01-02T00:00:00.000Z`,
+  ])
+})
+
+
 test(`should generate specified amount of timestamp entries between start and end times`, () => {
   const dateString = `2024-01-01`
 
   const res = calculateTimeStampInterval({
     end: new Date(`2024-01-02`).getTime(),
-    entries: 24,
+    entries: 25,
     start: new Date(dateString).getTime(),
   })
 
-  expect(res.length).toEqual(24)
+  expect(res.length).toEqual(25)
   expect(res.map((t) => new Date(t).toISOString())).toStrictEqual([
     `${dateString}T00:00:00.000Z`,
     `${dateString}T01:00:00.000Z`,
@@ -37,6 +51,7 @@ test(`should generate specified amount of timestamp entries between start and en
     `${dateString}T21:00:00.000Z`,
     `${dateString}T22:00:00.000Z`,
     `${dateString}T23:00:00.000Z`,
+    `2024-01-02T00:00:00.000Z`
   ])
 })
 
@@ -50,7 +65,7 @@ test(`should add a random five second offset to the entries`, () => {
     start: new Date(dateString).getTime(),
     random: {
       maxOffset: ONE_SECOND_IN_MS * 5,
-      blipLikelyHood: 100,
+      blipLiklihood: 1,
     },
   })
 

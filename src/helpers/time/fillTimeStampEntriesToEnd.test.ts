@@ -46,7 +46,7 @@ test(`should add a random five second offset to the entries`, () => {
     interval: ONE_HOUR_IN_MS,
     random: {
       maxOffset: ONE_SECOND_IN_MS * 5,
-      blipLikelyHood: 100,
+      blipLiklihood: 1,
     }
   })
 

@@ -8,7 +8,7 @@ export function calculateTimeStampEntries(args: CalculateTimeStampEntries) {
     throw new Error(`Start time is greater than end time`)
   }
 
-  const entries = Math.round((end - start) / args.interval)
+  const entries = Math.round((end - start) / args.interval) + 1
 
   return calculateTimeStampInterval({
     ...args,

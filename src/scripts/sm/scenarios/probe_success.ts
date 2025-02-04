@@ -1,4 +1,4 @@
-import { Scenario } from "../../helpers/scenarios/scenarios.types.ts";
+import { Scenario } from "../../../helpers/scenarios/scenarios.types.ts";
 
 /*
 One probe with a 90% success rate

@@ -7,7 +7,8 @@
     "start": "tsx",
     "test": "vitest",
     "backfill": "promtool tsdb create-blocks-from openmetrics \"$1\" --max-block-duration 24h",
-    "prom": "docker compose -f ./src/docker/docker-compose.yml up -d"
+    "prom": "docker compose -f ./src/docker/docker-compose.yml up -d",
+    "prom:testdata": "tsx ./src/scripts/writeTestMetrics.ts"
   },
   "author": "",
   "license": "ISC",

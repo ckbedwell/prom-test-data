@@ -1,9 +1,11 @@
 import { describe, expect, test } from "vitest"
-import { ONE_HOUR_IN_MS } from "../time/time.constants.ts"
+import { ONE_DAY_IN_MS, ONE_HOUR_IN_MS } from "../time/time.constants.ts"
 import { sampleFromShapes } from "./sampleFromShapes.ts"
 
 describe(`single line entry`, () => {
   test(`should generate a sample when shapes have entries | end`, () => {
+    const dateString = `2024-01-01`
+
     const res = sampleFromShapes({
       shapes: [
         {
@@ -13,40 +15,45 @@ describe(`single line entry`, () => {
         },
       ],
       time: {
-        end: new Date(`2024-01-02`).getTime(),
+        end: new Date(dateString).getTime() + ONE_DAY_IN_MS,
         interval: ONE_HOUR_IN_MS,
       },
     })
 
-    expect(res).toEqual([
-      { timestamp: 1704070800000, value: 1 },
-      { timestamp: 1704074400000, value: 2 },
-      { timestamp: 1704078000000, value: 3 },
-      { timestamp: 1704081600000, value: 4 },
-      { timestamp: 1704085200000, value: 5 },
-      { timestamp: 1704088800000, value: 6 },
-      { timestamp: 1704092400000, value: 7 },
-      { timestamp: 1704096000000, value: 8 },
-      { timestamp: 1704099600000, value: 9 },
-      { timestamp: 1704103200000, value: 10 },
-      { timestamp: 1704106800000, value: 11 },
-      { timestamp: 1704110400000, value: 12 },
-      { timestamp: 1704114000000, value: 13 },
-      { timestamp: 1704117600000, value: 14 },
-      { timestamp: 1704121200000, value: 15 },
-      { timestamp: 1704124800000, value: 16 },
-      { timestamp: 1704128400000, value: 17 },
-      { timestamp: 1704132000000, value: 18 },
-      { timestamp: 1704135600000, value: 19 },
-      { timestamp: 1704139200000, value: 20 },
-      { timestamp: 1704142800000, value: 21 },
-      { timestamp: 1704146400000, value: 22 },
-      { timestamp: 1704150000000, value: 23 },
-      { timestamp: 1704153600000, value: 24 },
+    expect(res.map(({ timestamp, value }) => ({
+      timestamp: new Date(timestamp).toISOString(),
+      value,
+    }))).toEqual([
+      { timestamp: `${dateString}T01:00:00.000Z`, value: 1 },
+      { timestamp: `${dateString}T02:00:00.000Z`, value: 2 },
+      { timestamp: `${dateString}T03:00:00.000Z`, value: 3 },
+      { timestamp: `${dateString}T04:00:00.000Z`, value: 4 },
+      { timestamp: `${dateString}T05:00:00.000Z`, value: 5 },
+      { timestamp: `${dateString}T06:00:00.000Z`, value: 6 },
+      { timestamp: `${dateString}T07:00:00.000Z`, value: 7 },
+      { timestamp: `${dateString}T08:00:00.000Z`, value: 8 },
+      { timestamp: `${dateString}T09:00:00.000Z`, value: 9 },
+      { timestamp: `${dateString}T10:00:00.000Z`, value: 10 },
+      { timestamp: `${dateString}T11:00:00.000Z`, value: 11 },
+      { timestamp: `${dateString}T12:00:00.000Z`, value: 12 },
+      { timestamp: `${dateString}T13:00:00.000Z`, value: 13 },
+      { timestamp: `${dateString}T14:00:00.000Z`, value: 14 },
+      { timestamp: `${dateString}T15:00:00.000Z`, value: 15 },
+      { timestamp: `${dateString}T16:00:00.000Z`, value: 16 },
+      { timestamp: `${dateString}T17:00:00.000Z`, value: 17 },
+      { timestamp: `${dateString}T18:00:00.000Z`, value: 18 },
+      { timestamp: `${dateString}T19:00:00.000Z`, value: 19 },
+      { timestamp: `${dateString}T20:00:00.000Z`, value: 20 },
+      { timestamp: `${dateString}T21:00:00.000Z`, value: 21 },
+      { timestamp: `${dateString}T22:00:00.000Z`, value: 22 },
+      { timestamp: `${dateString}T23:00:00.000Z`, value: 23 },
+      { timestamp: `2024-01-02T00:00:00.000Z`, value: 24 },
     ])
   })
 
   test(`should generate a sample when shapes have entries | start`, () => {
+    const dateString = `2024-01-01`
+
     const res = sampleFromShapes({
       shapes: [
         {
@@ -56,67 +63,76 @@ describe(`single line entry`, () => {
         },
       ],
       time: {
-        start: new Date(`2024-01-02`).getTime(),
-        end: new Date(`2024-01-03`).getTime(),
+        start: new Date(dateString).getTime() + ONE_HOUR_IN_MS,
+        end: new Date(`2024-01-02`).getTime(),
       },
     })
 
-    expect(res).toEqual([
-      { timestamp: 1704153600000, value: 1 },
-      { timestamp: 1704157200000, value: 2 },
-      { timestamp: 1704160800000, value: 3 },
-      { timestamp: 1704164400000, value: 4 },
-      { timestamp: 1704168000000, value: 5 },
-      { timestamp: 1704171600000, value: 6 },
-      { timestamp: 1704175200000, value: 7 },
-      { timestamp: 1704178800000, value: 8 },
-      { timestamp: 1704182400000, value: 9 },
-      { timestamp: 1704186000000, value: 10 },
-      { timestamp: 1704189600000, value: 11 },
-      { timestamp: 1704193200000, value: 12 },
-      { timestamp: 1704196800000, value: 13 },
-      { timestamp: 1704200400000, value: 14 },
-      { timestamp: 1704204000000, value: 15 },
-      { timestamp: 1704207600000, value: 16 },
-      { timestamp: 1704211200000, value: 17 },
-      { timestamp: 1704214800000, value: 18 },
-      { timestamp: 1704218400000, value: 19 },
-      { timestamp: 1704222000000, value: 20 },
-      { timestamp: 1704225600000, value: 21 },
-      { timestamp: 1704229200000, value: 22 },
-      { timestamp: 1704232800000, value: 23 },
-      { timestamp: 1704236400000, value: 24 },
+    expect(res.map(({ timestamp, value }) => ({
+      timestamp: new Date(timestamp).toISOString(),
+      value,
+    }))).toEqual([
+      { timestamp: `${dateString}T01:00:00.000Z`, value: 1 },
+      { timestamp: `${dateString}T02:00:00.000Z`, value: 2 },
+      { timestamp: `${dateString}T03:00:00.000Z`, value: 3 },
+      { timestamp: `${dateString}T04:00:00.000Z`, value: 4 },
+      { timestamp: `${dateString}T05:00:00.000Z`, value: 5 },
+      { timestamp: `${dateString}T06:00:00.000Z`, value: 6 },
+      { timestamp: `${dateString}T07:00:00.000Z`, value: 7 },
+      { timestamp: `${dateString}T08:00:00.000Z`, value: 8 },
+      { timestamp: `${dateString}T09:00:00.000Z`, value: 9 },
+      { timestamp: `${dateString}T10:00:00.000Z`, value: 10 },
+      { timestamp: `${dateString}T11:00:00.000Z`, value: 11 },
+      { timestamp: `${dateString}T12:00:00.000Z`, value: 12 },
+      { timestamp: `${dateString}T13:00:00.000Z`, value: 13 },
+      { timestamp: `${dateString}T14:00:00.000Z`, value: 14 },
+      { timestamp: `${dateString}T15:00:00.000Z`, value: 15 },
+      { timestamp: `${dateString}T16:00:00.000Z`, value: 16 },
+      { timestamp: `${dateString}T17:00:00.000Z`, value: 17 },
+      { timestamp: `${dateString}T18:00:00.000Z`, value: 18 },
+      { timestamp: `${dateString}T19:00:00.000Z`, value: 19 },
+      { timestamp: `${dateString}T20:00:00.000Z`, value: 20 },
+      { timestamp: `${dateString}T21:00:00.000Z`, value: 21 },
+      { timestamp: `${dateString}T22:00:00.000Z`, value: 22 },
+      { timestamp: `${dateString}T23:00:00.000Z`, value: 23 },
+      { timestamp: `2024-01-02T00:00:00.000Z`, value: 24 },
     ])
   })
 
   test(`should generate a sample when shapes have entries | start & end`, () => {
+    const dateString = `2024-01-01`
+
     const res = sampleFromShapes({
       shapes: [
         {
           type: `line`,
-          range: [1, 24],
-          entries: 12,
+          range: [0, 24],
+          entries: 13,
         },
       ],
       time: {
-        start: new Date(`2024-01-02`).getTime(),
-        end: new Date(`2024-01-03`).getTime(),
+        start: new Date(dateString).getTime(),
+        end: new Date(`2024-01-02`).getTime(),
       },
     })
 
-    expect(res).toEqual([
-      { timestamp: 1704153600000, value: 1 },
-      { timestamp: 1704160800000, value: 3 },
-      { timestamp: 1704168000000, value: 5 },
-      { timestamp: 1704175200000, value: 7 },
-      { timestamp: 1704182400000, value: 9 },
-      { timestamp: 1704189600000, value: 11 },
-      { timestamp: 1704196800000, value: 14 },
-      { timestamp: 1704204000000, value: 16 },
-      { timestamp: 1704211200000, value: 18 },
-      { timestamp: 1704218400000, value: 20 },
-      { timestamp: 1704225600000, value: 22 },
-      { timestamp: 1704232800000, value: 24 },
+    expect(res.map(({ timestamp, value }) => ({
+      timestamp: new Date(timestamp).toISOString(),
+      value,
+    }))).toEqual([
+      { timestamp: `${dateString}T00:00:00.000Z`, value: 0 },
+      { timestamp: `${dateString}T02:00:00.000Z`, value: 2 },
+      { timestamp: `${dateString}T04:00:00.000Z`, value: 4 },
+      { timestamp: `${dateString}T06:00:00.000Z`, value: 6 },
+      { timestamp: `${dateString}T08:00:00.000Z`, value: 8 },
+      { timestamp: `${dateString}T10:00:00.000Z`, value: 10 },
+      { timestamp: `${dateString}T12:00:00.000Z`, value: 12 },
+      { timestamp: `${dateString}T14:00:00.000Z`, value: 14 },
+      { timestamp: `${dateString}T16:00:00.000Z`, value: 16 },
+      { timestamp: `${dateString}T18:00:00.000Z`, value: 18 },
+      { timestamp: `${dateString}T20:00:00.000Z`, value: 20 },
+      { timestamp: `${dateString}T22:00:00.000Z`, value: 22 },
+      { timestamp: `2024-01-02T00:00:00.000Z`, value: 24 },
     ])
   })
 })
@@ -142,55 +158,58 @@ describe(`multi line entry`, () => {
       },
     })
 
-    expect(res).toEqual([
-      { timestamp: 1703984400000, value: 1 },
-      { timestamp: 1703988000000, value: 2 },
-      { timestamp: 1703991600000, value: 3 },
-      { timestamp: 1703995200000, value: 4 },
-      { timestamp: 1703998800000, value: 5 },
-      { timestamp: 1704002400000, value: 6 },
-      { timestamp: 1704006000000, value: 7 },
-      { timestamp: 1704009600000, value: 8 },
-      { timestamp: 1704013200000, value: 9 },
-      { timestamp: 1704016800000, value: 10 },
-      { timestamp: 1704020400000, value: 11 },
-      { timestamp: 1704024000000, value: 12 },
-      { timestamp: 1704027600000, value: 13 },
-      { timestamp: 1704031200000, value: 14 },
-      { timestamp: 1704034800000, value: 15 },
-      { timestamp: 1704038400000, value: 16 },
-      { timestamp: 1704042000000, value: 17 },
-      { timestamp: 1704045600000, value: 18 },
-      { timestamp: 1704049200000, value: 19 },
-      { timestamp: 1704052800000, value: 20 },
-      { timestamp: 1704056400000, value: 21 },
-      { timestamp: 1704060000000, value: 22 },
-      { timestamp: 1704063600000, value: 23 },
-      { timestamp: 1704067200000, value: 24 },
-      { timestamp: 1704070800000, value: 23 },
-      { timestamp: 1704074400000, value: 22 },
-      { timestamp: 1704078000000, value: 21 },
-      { timestamp: 1704081600000, value: 20 },
-      { timestamp: 1704085200000, value: 19 },
-      { timestamp: 1704088800000, value: 18 },
-      { timestamp: 1704092400000, value: 17 },
-      { timestamp: 1704096000000, value: 16 },
-      { timestamp: 1704099600000, value: 15 },
-      { timestamp: 1704103200000, value: 14 },
-      { timestamp: 1704106800000, value: 13 },
-      { timestamp: 1704110400000, value: 12 },
-      { timestamp: 1704114000000, value: 11 },
-      { timestamp: 1704117600000, value: 10 },
-      { timestamp: 1704121200000, value: 9 },
-      { timestamp: 1704124800000, value: 8 },
-      { timestamp: 1704128400000, value: 7 },
-      { timestamp: 1704132000000, value: 6 },
-      { timestamp: 1704135600000, value: 5 },
-      { timestamp: 1704139200000, value: 4 },
-      { timestamp: 1704142800000, value: 3 },
-      { timestamp: 1704146400000, value: 2 },
-      { timestamp: 1704150000000, value: 1 },
-      { timestamp: 1704153600000, value: 0 },
+    expect(res.map(({ timestamp, value }) => ({
+      timestamp: new Date(timestamp).toISOString(),
+      value,
+    }))).toEqual([
+      { timestamp: '2023-12-31T01:00:00.000Z', value: 1 },
+      { timestamp: '2023-12-31T02:00:00.000Z', value: 2 },
+      { timestamp: '2023-12-31T03:00:00.000Z', value: 3 },
+      { timestamp: '2023-12-31T04:00:00.000Z', value: 4 },
+      { timestamp: '2023-12-31T05:00:00.000Z', value: 5 },
+      { timestamp: '2023-12-31T06:00:00.000Z', value: 6 },
+      { timestamp: '2023-12-31T07:00:00.000Z', value: 7 },
+      { timestamp: '2023-12-31T08:00:00.000Z', value: 8 },
+      { timestamp: '2023-12-31T09:00:00.000Z', value: 9 },
+      { timestamp: '2023-12-31T10:00:00.000Z', value: 10 },
+      { timestamp: '2023-12-31T11:00:00.000Z', value: 11 },
+      { timestamp: '2023-12-31T12:00:00.000Z', value: 12 },
+      { timestamp: '2023-12-31T13:00:00.000Z', value: 13 },
+      { timestamp: '2023-12-31T14:00:00.000Z', value: 14 },
+      { timestamp: '2023-12-31T15:00:00.000Z', value: 15 },
+      { timestamp: '2023-12-31T16:00:00.000Z', value: 16 },
+      { timestamp: '2023-12-31T17:00:00.000Z', value: 17 },
+      { timestamp: '2023-12-31T18:00:00.000Z', value: 18 },
+      { timestamp: '2023-12-31T19:00:00.000Z', value: 19 },
+      { timestamp: '2023-12-31T20:00:00.000Z', value: 20 },
+      { timestamp: '2023-12-31T21:00:00.000Z', value: 21 },
+      { timestamp: '2023-12-31T22:00:00.000Z', value: 22 },
+      { timestamp: '2023-12-31T23:00:00.000Z', value: 23 },
+      { timestamp: '2024-01-01T00:00:00.000Z', value: 24 },
+      { timestamp: '2024-01-01T01:00:00.000Z', value: 23 },
+      { timestamp: '2024-01-01T02:00:00.000Z', value: 22 },
+      { timestamp: '2024-01-01T03:00:00.000Z', value: 21 },
+      { timestamp: '2024-01-01T04:00:00.000Z', value: 20 },
+      { timestamp: '2024-01-01T05:00:00.000Z', value: 19 },
+      { timestamp: '2024-01-01T06:00:00.000Z', value: 18 },
+      { timestamp: '2024-01-01T07:00:00.000Z', value: 17 },
+      { timestamp: '2024-01-01T08:00:00.000Z', value: 16 },
+      { timestamp: '2024-01-01T09:00:00.000Z', value: 15 },
+      { timestamp: '2024-01-01T10:00:00.000Z', value: 14 },
+      { timestamp: '2024-01-01T11:00:00.000Z', value: 13 },
+      { timestamp: '2024-01-01T12:00:00.000Z', value: 12 },
+      { timestamp: '2024-01-01T13:00:00.000Z', value: 11 },
+      { timestamp: '2024-01-01T14:00:00.000Z', value: 10 },
+      { timestamp: '2024-01-01T15:00:00.000Z', value: 9 },
+      { timestamp: '2024-01-01T16:00:00.000Z', value: 8 },
+      { timestamp: '2024-01-01T17:00:00.000Z', value: 7 },
+      { timestamp: '2024-01-01T18:00:00.000Z', value: 6 },
+      { timestamp: '2024-01-01T19:00:00.000Z', value: 5 },
+      { timestamp: '2024-01-01T20:00:00.000Z', value: 4 },
+      { timestamp: '2024-01-01T21:00:00.000Z', value: 3 },
+      { timestamp: '2024-01-01T22:00:00.000Z', value: 2 },
+      { timestamp: '2024-01-01T23:00:00.000Z', value: 1 },
+      { timestamp: '2024-01-02T00:00:00.000Z', value: 0 }
     ])
   })
 })

@@ -1,11 +1,12 @@
 import { Sample } from 'prometheus-remote-write/types.js'
-import { calculateTimestamps, EntryLessTime, FitTimeToShapeOptions, sampleFromShapes } from '../helpers/samples/sampleFromShapes.ts'
-import { percentSuccess } from '../helpers/scenarios/percentSuccess.ts'
-import { Scenario } from '../helpers/scenarios/scenarios.types.ts'
-import { writeProbeSuccess, WriteProbeSuccess } from '../metrics/probe_success.ts'
+import { calculateTimestamps, EntryLessTime, FitTimeToShapeOptions } from '../../helpers/samples/sampleFromShapes.ts'
+import { percentSuccess } from '../../helpers/scenarios/percentSuccess.ts'
+import { Scenario } from '../../helpers/scenarios/scenarios.types.ts'
+import { writeProbeSuccess, WriteProbeSuccess } from '../../metrics/probe_success.ts'
 import { TimeRange } from './timeRanges.ts'
 import { calculateSplits } from './scenarios.utils.ts'
-import { assignValues } from '../helpers/general/assignValues.ts'
+import { assignValues } from '../../helpers/general/assignValues.ts'
+import { createSamples } from '../../helpers/samples/createSamples.ts'
 
 export async function writeScenarios(scenarios: Scenario[], timeRanges: TimeRange[], labels: Record<string, string>) {
   let queue = [...scenarios]
@@ -51,14 +52,14 @@ function generateScenario(scenario: Scenario, timeRanges: TimeRange[], labels: R
     let samples: Sample[] = []
 
     if (distribution === "overlap") {
-      samples = sampleFromShapes({
+      samples = createSamples({
         shapes,
         time,
       })
     }
 
     if (distribution === "shared_random") {
-      samples = sampleFromShapes({
+      samples = createSamples({
         shapes,
         time,
         options: {
@@ -81,14 +82,14 @@ function generateScenario(scenario: Scenario, timeRanges: TimeRange[], labels: R
           shapesTouse = shapes.slice().reverse()
         }
 
-        samples = sampleFromShapes({
+        samples = createSamples({
           shapes: shapesTouse,
           time,
         })
       }
 
       if (distribution === "random") {
-        samples = sampleFromShapes({
+        samples = createSamples({
           ...inputs,
           options: {
             randomize: true

@@ -1,6 +1,7 @@
 import { bellCurve } from "./bellCurve.ts"
 import { curve } from "./curve.ts"
 import { line } from "./line.ts"
+import { random } from "./random.ts"
 import { Shape } from "./shapes.types.ts"
 
 interface Options {
@@ -16,6 +17,10 @@ export function multiShape(shapes: Shape[], options?: Options) {
 
       if (shape.type === `curve`) {
         return curve(shape)
+      }
+
+      if (shape.type === `random`) {
+        return random(shape)
       }
 
       return line(shape)
