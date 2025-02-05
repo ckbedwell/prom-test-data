@@ -3,7 +3,7 @@ import { TIME_RANGES } from './timeRanges.ts'
 import { writeScenarios } from './writeScenarios.ts'
 
 const labels = {
-  job: "test_job2",
+  job: "test_job",
   instance: "https://testinstance.com",
 }
 
@@ -18,5 +18,5 @@ writeScenarios([
   TWO_PROBE_90PC_4CONFIGS,
 
   TWENTY_PROBE_50PC_RANDOM,
-  TWENTY_PROBE_50PC_RANDOM,
+  TWENTY_PROBE_50PC_SHARED_RANDOM,
 ], TIME_RANGES, labels)

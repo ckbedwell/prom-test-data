@@ -1,21 +1,28 @@
-import { Sample } from "prometheus-remote-write/types.js"
 import { writeWithLog } from "../helpers/write/writeWithLog.ts"
 import { summary } from "../helpers/types/summary.ts"
 import { MetricToWrite, WriteOptions } from "../helpers/write/write.types.ts"
+import { DropSamples } from "../helpers/general/assignValues.types.ts"
+import { assignTimestampsToValues } from "../helpers/general/assignValues.ts"
+import { Sample } from "../helpers/samples/samples.types.ts"
 
 export type WriteProbeSuccess = {
   samples: Sample[]
   labels: Record<string, string>
   writeToLog?: Record<string, unknown>
+  dropSamples?: DropSamples
 }
 
 
 export function writeProbeSuccess({
-  samples,
+  samples: __samples,
   labels,
   writeToLog,
+  dropSamples,
 }: WriteProbeSuccess, options?: WriteOptions) {
-  const { sum, count } = summary(samples)
+  const samples = dropMetrics(__samples, dropSamples)
+  const { sum: __sum, count: __count } = summary(__samples)
+  const sum = dropMetrics(__sum, dropSamples)
+  const count = dropMetrics(__count, dropSamples)
 
   const metrics: MetricToWrite[] = [
     {
@@ -63,4 +70,15 @@ function generateSummary({ count, sum, labels }: { count: Sample[], sum: Sample[
   ]
 
   return summary
+}
+
+function dropMetrics(__samples: Sample[], dropSamples?: DropSamples) {
+  if (!dropSamples) {
+    return __samples
+  }
+
+  const values = __samples.map(({ value }) => value)
+  const timestamps = __samples.map(({ timestamp }) => timestamp)
+
+  return assignTimestampsToValues(timestamps, values, dropSamples)
 }

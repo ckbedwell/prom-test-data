@@ -1,4 +1,3 @@
-import { Sample } from 'prometheus-remote-write/types.js'
 import { calculateTimestamps, EntryLessTime, FitTimeToShapeOptions } from '../../helpers/samples/sampleFromShapes.ts'
 import { percentSuccess } from '../../helpers/scenarios/percentSuccess.ts'
 import { Scenario } from '../../helpers/scenarios/scenarios.types.ts'
@@ -7,6 +6,7 @@ import { TimeRange } from './timeRanges.ts'
 import { calculateSplits } from './scenarios.utils.ts'
 import { assignValues } from '../../helpers/general/assignValues.ts'
 import { createSamples } from '../../helpers/samples/createSamples.ts'
+import { Sample } from '../../helpers/samples/samples.types.ts'
 
 export async function writeScenarios(scenarios: Scenario[], timeRanges: TimeRange[], labels: Record<string, string>) {
   let queue = [...scenarios]
@@ -40,7 +40,7 @@ export async function writeScenarios(scenarios: Scenario[], timeRanges: TimeRang
 function generateScenario(scenario: Scenario, timeRanges: TimeRange[], labels: Record<string, string>) {
   let toWrite: WriteProbeSuccess[] = [];
 
-  timeRanges.forEach(({ time, entries, ref }) => {
+  timeRanges.forEach(({ time, entries, ref, dropSamples }) => {
     const { probes, expectedUptime, distribution = `overlap`, configurations = 1 } = scenario
     const shapes = percentSuccess({ percentage: expectedUptime, entries })
 
@@ -52,16 +52,12 @@ function generateScenario(scenario: Scenario, timeRanges: TimeRange[], labels: R
     let samples: Sample[] = []
 
     if (distribution === "overlap") {
-      samples = createSamples({
-        shapes,
-        time,
-      })
+      samples = createSamples(inputs)
     }
 
     if (distribution === "shared_random") {
       samples = createSamples({
-        shapes,
-        time,
+        ...inputs,
         options: {
           randomize: true
         }
@@ -108,6 +104,7 @@ function generateScenario(scenario: Scenario, timeRanges: TimeRange[], labels: R
           probe: `probe${i + 1}`,
           isolate,
         },
+        dropSamples,
         writeToLog: {
           inputs,
         },
@@ -125,7 +122,6 @@ function generateScenario(scenario: Scenario, timeRanges: TimeRange[], labels: R
 function splitAcrossConfigs(input: WriteProbeSuccess, configs: number) {
   const { samples, labels } = input
   const configSizes = calculateSplits(samples.length, configs)
-
 
   return configSizes.map((size, i) => {
     return {

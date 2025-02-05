@@ -1,9 +1,9 @@
-import { Sample } from "prometheus-remote-write/types.js";
 import path from 'path'
 import { MetricToWrite, WriteOptions } from "./write.types.ts";
 import { mkdir, writeFileSync, existsSync } from "node:fs"
 import { getFileName } from "./write.utils.ts";
 import { runBackfill } from "./runBackfill.ts";
+import { Sample } from '../samples/samples.types.ts';
 
 export async function writeOpenMetrics(input: MetricToWrite[], options?: WriteOptions) {
   const openMetricsDir = path.resolve(`./src/docker/input`)

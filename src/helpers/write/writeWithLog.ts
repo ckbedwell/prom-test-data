@@ -1,9 +1,9 @@
-import { Sample } from "prometheus-remote-write/types.js"
 import { writeLogFile } from "../log/writeLogFile.ts"
 import { remoteWrite } from "./remoteWrite.ts"
 import { MetricToWrite, WriteOptions } from "./write.types.ts"
 import { writeOpenMetrics } from "./writeOpenMetrics.ts"
 import { getWriteMethod } from "./getWriteMethod.ts"
+import { Sample } from "../samples/samples.types.ts"
 
 interface WriteWithLog {
   metrics: MetricToWrite[]

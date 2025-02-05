@@ -1,4 +1,4 @@
-import { Sample } from "prometheus-remote-write/types.js"
+import { Sample } from "../samples/samples.types.ts"
 
 export function summary(shape: Sample[]) {
   let count: Sample[] = []

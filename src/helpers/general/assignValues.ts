@@ -1,4 +1,4 @@
-import { Sample } from "prometheus-remote-write/types.js"
+import { Sample } from "../samples/samples.types.ts"
 import { AssignValuesOptions, DropSamples } from "./assignValues.types.ts"
 import { isInRange, normalizeTimestamps, shuffle, unfurlIndices } from "./assignValues.utils.ts"
 
@@ -22,11 +22,12 @@ export function assignTimestampsToValues(timestamps: number[], valuesArranged: n
   let samples: Sample[] = []
 
   for (let i = 0; i < timestamps.length; i++) {
+    const timestamp = timestamps[i]
+
     if (unfurledIndices.includes(i)) {
       continue
     }
 
-    const timestamp = timestamps[i]
 
     if (isInRange(timestamp, normalizedDroppedTimestamps)) {
       continue

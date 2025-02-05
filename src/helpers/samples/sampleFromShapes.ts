@@ -1,4 +1,5 @@
-import { assignValues, AssignValuesOptions } from "../general/assignValues.ts"
+import { assignValues } from "../general/assignValues.ts"
+import { AssignValuesOptions } from "../general/assignValues.types.ts"
 import { multiShape } from "../shapes/multiShape.ts"
 import { Shape } from "../shapes/shapes.types.ts"
 import { calculateTimeStampInterval } from "../time/calculateTimeStampInterval.ts"

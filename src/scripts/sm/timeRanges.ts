@@ -1,3 +1,4 @@
+import { DropSamples } from '../../helpers/general/assignValues.types.ts'
 import { EntryLessTime } from '../../helpers/samples/sampleFromShapes.ts'
 import { ONE_MINUTE_IN_MS, ONE_MONTH_IN_MINUTES, ONE_SECOND_IN_MS, ONE_YEAR_IN_MINUTES } from '../../helpers/time/time.constants.ts'
 
@@ -7,6 +8,7 @@ export interface TimeRange {
   time: EntryLessTime,
   entries: number,
   ref: string,
+  dropSamples?: DropSamples
 }
 
 const TEN_MINUTES: TimeRange = {
@@ -15,7 +17,7 @@ const TEN_MINUTES: TimeRange = {
     interval: ONE_SECOND_IN_MS * 15,
   },
   entries: 40,
-  ref: `10m`
+  ref: `10m`,
 }
 
 const THREE_HOURS: TimeRange = {
@@ -24,7 +26,7 @@ const THREE_HOURS: TimeRange = {
     interval: ONE_SECOND_IN_MS * 15,
   },
   entries: 720,
-  ref: `3h`
+  ref: `3h`,
 }
 
 const SIX_MONTHS: TimeRange = {
@@ -33,7 +35,7 @@ const SIX_MONTHS: TimeRange = {
     interval: ONE_MINUTE_IN_MS,
   },
   entries: ONE_MONTH_IN_MINUTES * 6,
-  ref: `6M`
+  ref: `6M`,
 }
 
 const ONE_YEAR: TimeRange = {
@@ -42,12 +44,12 @@ const ONE_YEAR: TimeRange = {
     interval: ONE_MINUTE_IN_MS,
   },
   entries: ONE_YEAR_IN_MINUTES,
-  ref: `1y`
+  ref: `1y`,
 }
 
 export const TIME_RANGES = [
   TEN_MINUTES,
   THREE_HOURS,
-  SIX_MONTHS,
-  ONE_YEAR
+  // SIX_MONTHS,
+  // ONE_YEAR
 ]
